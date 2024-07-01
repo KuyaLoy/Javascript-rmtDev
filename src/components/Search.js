@@ -10,7 +10,7 @@ import renderError from "./Error.js";
 import renderJobList from "./JobList.js";
 import renderSpinner from "./Spinner.js";
 
-const submitHandler = (event) => {
+const submitHandler = async (event) => {
   // prevent default behavior
   event.preventDefault();
 
@@ -34,32 +34,53 @@ const submitHandler = (event) => {
   // render spinner
   renderSpinner("search");
 
-  // fetch search results
-  fetch(`${BASE_API_URL}/jobs?search=${searchText}`)
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error(
-          "resource issue (e.g. resource doesn't exist) or server issue"
-        );
-      }
-      return response.json();
-    })
-    .then((data) => {
-      //extract job items
-      const { jobItems } = data;
+  try {
+    // fetch search results
+    const response = await fetch(`${BASE_API_URL}/jobs?search=${searchText}`);
+    const data = await response.json();
 
-      // remove
-      renderSpinner("search");
+    if (!response.ok) {
+      throw new Error(data.description);
+    }
 
-      //rende number of results
-      numberEl.textContent = jobItems.length;
+    //extract job items
+    const { jobItems } = data;
+    // remove
+    renderSpinner("search");
+    //rende number of results
+    numberEl.textContent = jobItems.length;
+    // render job items in search job list
+    renderJobList(jobItems);
+  } catch (error) {
+    renderSpinner("search");
+    renderError(error.message);
+  }
 
-      // render job items in search job list
-      renderJobList(jobItems);
-    })
-    .catch((error) => {
-      renderSpinner("search");
-      renderError(error.message);
-    });
+  // fetch(`${BASE_API_URL}/jobs?search=${searchText}`)
+  //   .then((response) => {
+  //     if (!response.ok) {
+  //       throw new Error(
+  //         "resource issue (e.g. resource doesn't exist) or server issue"
+  //       );
+  //     }
+  //     return response.json();
+  //   })
+  //   .then((data) => {
+  //     //extract job items
+  //     const { jobItems } = data;
+
+  //     // remove
+  //     renderSpinner("search");
+
+  //     //rende number of results
+  //     numberEl.textContent = jobItems.length;
+
+  //     // render job items in search job list
+  //     renderJobList(jobItems);
+  //   })
+  //   .catch((error) => {
+  //     renderSpinner("search");
+  //     renderError(error.message);
+  //   });
 };
 searchFormEl.addEventListener("submit", submitHandler);

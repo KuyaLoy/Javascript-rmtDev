@@ -1,6 +1,6 @@
 import { jobDetailsContentEl } from "../common.js";
 
-const renderJobDetails = (JobItem) => {
+const renderJobDetails = (jobItem) => {
   const jobDetailsHTML = `
           <img src="${
             jobItem.coverImgURL
