@@ -4,6 +4,7 @@ import {
   jobListSearchEl,
   numberEl,
   BASE_API_URL,
+  state,
   getData,
 } from "../common.js";
 
@@ -41,12 +42,18 @@ const submitHandler = async (event) => {
 
     //extract job items
     const { jobItems } = data;
-    // remove
+
+    // update state
+    state.searchJobItems = jobItems;
+
+    // removespinner
     renderSpinner("search");
+
     //rende number of results
     numberEl.textContent = jobItems.length;
+
     // render job items in search job list
-    renderJobList(jobItems);
+    renderJobList();
   } catch (error) {
     renderSpinner("search");
     renderError(error.message);
