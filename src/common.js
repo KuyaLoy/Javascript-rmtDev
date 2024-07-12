@@ -6,6 +6,7 @@ export const RESULT_PER_PAGE = 7;
 // state
 export const state = {
   searchJobItems: [],
+  activeJobItem: {},
   currentPage: 1,
 };
 
@@ -53,6 +54,7 @@ export const spinnerJobDetailsEl = document.querySelector(
 export const getData = async (completeURL) => {
   // fetch search results
   const response = await fetch(completeURL);
+  3;
   const data = await response.json();
 
   if (!response.ok) {
