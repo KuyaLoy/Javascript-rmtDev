@@ -64,3 +64,5 @@ export const getData = async (completeURL) => {
 
   return data;
 };
+
+import "./style.css";
