@@ -3,8 +3,8 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 module.exports = {
   mode: "production",
   entry: "./src/script.js",
-  output: { filename: "main.js" },
-  plugins: [new MiniCssExtractPlugin({ filename: "main.css" })],
+  output: { filename: "script.js" },
+  plugins: [new MiniCssExtractPlugin({ filename: "style.css" })],
   module: {
     rules: [
       {
